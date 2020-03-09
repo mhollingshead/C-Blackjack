@@ -96,7 +96,7 @@ int Hand::getHandValue() {
   }
 
   //if the hand has an ace, check to see if an 11 would bust over a 1
-  if (hasAce == true) {
+  if (hasAce) {
     if (value <= 11) {
       //if the hand wouldn't bust, the ace should be an 11
       value += 10;
@@ -121,7 +121,7 @@ int Hand::getCasinoHandValue() {
     }
   }
 
-  if (hasAce == true) {
+  if (hasAce) {
     if (value <= 11) {
       value += 10;
       aceHigh = true;
@@ -129,7 +129,7 @@ int Hand::getCasinoHandValue() {
   }
 
   //subtract the first card
-  if (aceHigh == true && hand.at(0).getValue() == 1) {
+  if (aceHigh && hand.at(0).getValue() == 1) {
     value -= 11;
   }
   else {
@@ -295,7 +295,7 @@ void BlackJackGame::play() {
   drawing = player->isDrawing();
 
   //if they do, continue drawing until they want to stop
-  while (drawing == true) {
+  while (drawing) {
     //deal a card
     m_deck.deal(player->hand);
 
@@ -305,7 +305,7 @@ void BlackJackGame::play() {
     std::cout << "[" << player->hand.getHandValue() << "]\n";
 
     //if player busts, announce winner and return
-    if (player->isBusted("Player") == true) {
+    if (player->isBusted("Player")) {
       winner = "casino";
       player->announce(winner);
       return;
@@ -324,7 +324,7 @@ void BlackJackGame::play() {
   drawing = m_casino->isDrawing();
 
   //if they do, continue drawing until they want to stop
-  while (drawing == true) {
+  while (drawing) {
 
     //deal a card
     m_deck.deal(m_casino->hand);
@@ -335,7 +335,7 @@ void BlackJackGame::play() {
     std::cout << "[" << m_casino->hand.getCasinoHandValue() << "]\n";
 
     //if casino busts, announce winner and return
-    if (m_casino->isBusted("Casino") == true) {
+    if (m_casino->isBusted("Casino")) {
       winner = "player";
       player->announce(winner);
       return;
